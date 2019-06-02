@@ -20,6 +20,9 @@
 		2194E10622A39DB400E7CB77 /* SearchObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E10522A39DB400E7CB77 /* SearchObjectModel.m */; };
 		2194E10A22A3B0B300E7CB77 /* NetworkUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E10922A3B0B300E7CB77 /* NetworkUtility.m */; };
 		2194E10E22A3DC0700E7CB77 /* GalleryPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E10D22A3DC0700E7CB77 /* GalleryPhotoCell.m */; };
+		2194E11022A4423E00E7CB77 /* SearchObjectModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */; };
+		2194E11222A444FA00E7CB77 /* PhotoModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E11122A444F900E7CB77 /* PhotoModelTests.m */; };
+		2194E11422A4466000E7CB77 /* NetworkUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +69,9 @@
 		2194E10922A3B0B300E7CB77 /* NetworkUtility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkUtility.m; sourceTree = "<group>"; };
 		2194E10C22A3DC0700E7CB77 /* GalleryPhotoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryPhotoCell.h; sourceTree = "<group>"; };
 		2194E10D22A3DC0700E7CB77 /* GalleryPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryPhotoCell.m; sourceTree = "<group>"; };
+		2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchObjectModelTests.m; sourceTree = "<group>"; };
+		2194E11122A444F900E7CB77 /* PhotoModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoModelTests.m; sourceTree = "<group>"; };
+		2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkUtilityTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +144,9 @@
 			children = (
 				2194E0DE22A3851D00E7CB77 /* FlickrGalleryTests.m */,
 				2194E0E022A3851D00E7CB77 /* Info.plist */,
+				2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */,
+				2194E11122A444F900E7CB77 /* PhotoModelTests.m */,
+				2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */,
 			);
 			path = FlickrGalleryTests;
 			sourceTree = "<group>";
@@ -350,6 +359,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2194E11022A4423E00E7CB77 /* SearchObjectModelTests.m in Sources */,
+				2194E11422A4466000E7CB77 /* NetworkUtilityTests.m in Sources */,
+				2194E11222A444FA00E7CB77 /* PhotoModelTests.m in Sources */,
 				2194E0DF22A3851D00E7CB77 /* FlickrGalleryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

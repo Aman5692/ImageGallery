@@ -27,14 +27,14 @@
 }
 
 - (void)fetchDataForKeyword:(NSString *)keyWord withSearchModel:(SearchObjectModel *)model {
-    if([keyWord isEqualToString: model.keyword]){
-        [self giveCallbackWithErrorCode:nil andModel:model];
-    } else if([keyWord isKindOfClass:[NSString class]] && keyWord.length > 0) {
-        [self.cache removeAllObjects];
-        [self makeNetworkRequestForKeyword:keyWord andPage:@"1" andSearchModel:nil];
-    } else {
+    if(![keyWord isKindOfClass:[NSString class]] || keyWord.length <= 0){
         NSError *error = [NSError errorWithDomain:@"GalleryManagerError" code:kInvalidSearchString userInfo:nil];
         [self giveCallbackWithErrorCode:error andModel:model];
+    } else if([keyWord isEqualToString:model.keyword]){
+        [self giveCallbackWithErrorCode:nil andModel:model];
+    } else {
+        [self.cache removeAllObjects];
+        [self makeNetworkRequestForKeyword:keyWord andPage:@"1" andSearchModel:nil];
     }
 }
 
@@ -82,7 +82,8 @@
                             [self.cache setObject:image forKey:downloadUrl];
                         }
                     }
-                    if(imageReceived >= prefetchCount) {
+                    if(imageReceived >= prefetchCount) {//Every time prefetch count is received give a callback
+                         imageReceived = 0;
                         [self giveCallbackWithErrorCode:nil andModel:model];
                     }
                 }];
@@ -91,7 +92,8 @@
             }
         }
     }
-    if(imageReceived >= prefetchCount) {
+    if(imageReceived >= prefetchCount) {//Every time prefetch count is received give a callback
+        imageReceived = 0;
         [self giveCallbackWithErrorCode:nil andModel:model];
     }
 }
