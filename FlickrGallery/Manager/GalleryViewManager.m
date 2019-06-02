@@ -67,9 +67,8 @@
 
 #pragma mark - prefetch
 
-- (void)prefetchImageFromStart:(int)start toPosition:(int)end andModel:(SearchObjectModel *)model {
+- (void)prefetchImageFromStart:(int)start toPosition:(int)end forModel:(SearchObjectModel *)model andGiveCallbackAfter:(int)prefetchCount {
     __block int imageReceived = 0;
-    int prefetchCount = end-start+1;
     for(int i = start;i <= end;i++) {
         if(model.photosList.count > i) {
             NSString *downloadUrl = [self getDownloadString:[model.photosList objectAtIndex:i]];
@@ -127,7 +126,7 @@
                     SearchObjectModel *searchModel = [[SearchObjectModel alloc] initWithDictionary:[response valueForKey:@"photos"]];
                     if(searchModel) {
                         searchModel.keyword = keyWord;
-                        [self prefetchImageFromStart:0 toPosition:(int)searchModel.photosList.count-1 andModel:searchModel];
+                        [self prefetchImageFromStart:0 toPosition:(int)searchModel.photosList.count-1 forModel:searchModel andGiveCallbackAfter:20];
                     } else {
                         NSError *error = [NSError errorWithDomain:@"GalleryManagerError" code:kInvalidResponse userInfo:nil];
                         [self giveCallbackWithErrorCode:error andModel:nil];
@@ -154,7 +153,7 @@
         }
         int start = (int)model.photosList.count-1;
         model.photosList = updateList;
-        [self prefetchImageFromStart:start toPosition:start+(int)photoList.count-1 andModel:model];
+        [self prefetchImageFromStart:start toPosition:(int)model.photosList.count-1 forModel:model andGiveCallbackAfter:20];
     } else {
         error = [NSError errorWithDomain:@"GalleryManagerError" code:kInvalidResponse userInfo:nil];
         [self giveCallbackWithErrorCode:error andModel:model];

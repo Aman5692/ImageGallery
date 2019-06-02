@@ -70,7 +70,11 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((collectionView.frame.size.width-80)/3, 200);
+    
+    CGFloat height = 200;
+    CGFloat width = (collectionView.frame.size.width-40)/3;
+    
+    return CGSizeMake(width, height);
 }
 
 #pragma mark - UICollectionViewPrefetchDataSource
