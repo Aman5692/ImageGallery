@@ -37,6 +37,8 @@
     self.manager.delegate = self;
 }
 
+ // If user clicks outside search bar
+// dismiss keybpard and perform search
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
@@ -71,8 +73,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat height = 200;
-    CGFloat width = (collectionView.frame.size.width-40)/3;
+    CGFloat height = 200;//default height
+    CGFloat width = (collectionView.frame.size.width-40)/3;//40 for padding
     
     return CGSizeMake(width, height);
 }
@@ -109,16 +111,15 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    return true;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     if(![textField.text isEqualToString:self.model.keyword]) {
         [self.collectionView setContentOffset:CGPointZero animated:NO];
         [self startSpinner];
         [self.manager fetchDataForKeyword:textField.text withSearchModel:self.model];
     }
-    return true;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    NSLog(@"%@", textField.text);
 }
 
 #pragma mark - GalleryManagerDelegate
@@ -131,7 +132,6 @@
         } else {
             self.model = model;
             [self.collectionView reloadData];
-        
         }
     });
 }
