@@ -51,10 +51,13 @@
 
 - (void)testStopSpinner {
     ViewController *vc = [[ViewController alloc] init];
+    if([vc respondsToSelector:@selector(startSpinner)]) {
+        [vc performSelector:@selector(startSpinner)];
+    }
     if([vc respondsToSelector:@selector(stopSpinner)]) {
         [vc performSelector:@selector(stopSpinner)];
         UIActivityIndicatorView *spinner = [vc valueForKey:@"spinner"];
-        XCTAssertNotNil(spinner,@"UIActivityIndicatorView not allocated");
+        XCTAssertNil(spinner,@"UIActivityIndicatorView not allocated");
         XCTAssertFalse(spinner.isAnimating,@"UIActivityIndicatorView is not animating");
     }
 }

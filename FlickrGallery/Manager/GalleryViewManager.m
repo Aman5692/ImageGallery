@@ -97,9 +97,12 @@
                 }
             }
         }];
+    }
+    //As image was present in cache, update imageView
+    if([NSThread currentThread].isMainThread) {
+        [imageView setImage:image];
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //As image was present in cache, update imageView
+        dispatch_sync(dispatch_get_main_queue(), ^{
             [imageView setImage:image];
         });
     }
