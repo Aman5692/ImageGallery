@@ -30,6 +30,30 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
+- (void)testSearchView {
+    
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app/*@START_MENU_TOKEN@*/.textFields[@"SearchField"]/*[[".textFields[@\"Enter text to search relevent photos\"]",".textFields[@\"SearchField\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ tap];
+    
+    XCUIElement *tKey = app/*@START_MENU_TOKEN@*/.keys[@"T"]/*[[".keyboards.keys[@\"T\"]",".keys[@\"T\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
+    [tKey tap];
+    
+    XCUIElement *rKey = app/*@START_MENU_TOKEN@*/.keys[@"r"]/*[[".keyboards.keys[@\"r\"]",".keys[@\"r\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
+    [rKey tap];
+    
+    XCUIElement *eKey = app/*@START_MENU_TOKEN@*/.keys[@"e"]/*[[".keyboards.keys[@\"e\"]",".keys[@\"e\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
+    [eKey tap];
+    [eKey tap];
+    
+    [app/*@START_MENU_TOKEN@*/.buttons[@"Go"]/*[[".keyboards.buttons[@\"Go\"]",".buttons[@\"Go\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ tap];
+    
+    [NSThread sleepForTimeInterval:10.0];
+    XCUIElementQuery *collectionViewsQuery = app.collectionViews;
+    int dataSourceCount = (int)[collectionViewsQuery childrenMatchingType:XCUIElementTypeCell].count;
+    XCTAssertTrue(dataSourceCount > 0,@"response not received for querry 'SpiderMan'");
+    
+}
+
 - (void)testExample {
     // Use recording to get started writing UI tests.
     // Use XCTAssert and related functions to verify your tests produce the correct results.

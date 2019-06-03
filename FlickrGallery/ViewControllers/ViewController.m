@@ -104,6 +104,11 @@
     
     [self.manager updateImageForModel:[self.model.photosList objectAtIndex:indexPath.row] onImageView:cell.imageView];
     
+    [cell.layer setCornerRadius:5.0f];
+    [cell.layer setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.2].CGColor];
+    [cell.layer setBorderColor:[UIColor colorWithWhite:0.8 alpha:1].CGColor];
+    [cell.layer setBorderWidth:1.0f];
+    
      //If user is at second last row
     //Add spiner on view and fetch new data
     if(indexPath.row + 3 >= self.model.photosList.count) {
