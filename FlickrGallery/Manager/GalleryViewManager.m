@@ -9,6 +9,8 @@
 #import "GalleryViewManager.h"
 #import "NetworkUtility.h"
 
+#define NoOfImagesToBeDownloadedBeforeSuccessCallback 20
+
 @interface GalleryViewManager()
 
 @property (nonatomic, strong) NSCache *cache;
@@ -48,25 +50,6 @@
     } else {
         [self makeNetworkRequestForKeyword:model.keyword andPage:[NSString stringWithFormat:@"%d",[model.page intValue]+1] andSearchModel:model];
     }
-}
-
-- (void)fetchImageForModel:(PhotoModel *)photoModel {
-    //get image from cache or network
-    NSString *downloadUrl = [self getDownloadString:photoModel];
-    UIImage *image = [self.cache objectForKey:downloadUrl];
-    
-    // If image does not exist in cache, fetch from network and save in cache
-    if(!image) {
-        [NetworkUtility fetchImageForUrl:downloadUrl withCompletionBlock:^(NSData * _Nullable data, NSError * _Nullable error){
-            if(!error){
-                UIImage *image = [[UIImage alloc] initWithData:data];
-                if(image) {
-                    [self.cache setObject:image forKey:downloadUrl];
-                }
-            }
-        }];
-    }
-    return;
 }
 
 - (void)updateImageForModel:(PhotoModel *)photoModel onImageView:(UIImageView *)imageView {
@@ -175,7 +158,7 @@
                     SearchObjectModel *searchModel = [[SearchObjectModel alloc] initWithDictionary:[response valueForKey:@"photos"]];
                     if(searchModel) {
                         searchModel.keyword = keyWord;
-                        [self prefetchImageFromStart:0 toPosition:(int)searchModel.photosList.count-1 forModel:searchModel andGiveCallbackAfter:20];
+                        [self prefetchImageFromStart:0 toPosition:(int)searchModel.photosList.count-1 forModel:searchModel andGiveCallbackAfter:NoOfImagesToBeDownloadedBeforeSuccessCallback];
                     } else {
                         NSError *error = [NSError errorWithDomain:@"GalleryManagerError" code:kInvalidResponse userInfo:nil];
                         [self giveCallbackWithErrorCode:error andModel:nil];
@@ -202,7 +185,7 @@
         }
         int start = (int)model.photosList.count-1;
         model.photosList = updateList;
-        [self prefetchImageFromStart:start toPosition:(int)model.photosList.count-1 forModel:model andGiveCallbackAfter:20];
+        [self prefetchImageFromStart:start toPosition:(int)model.photosList.count-1 forModel:model andGiveCallbackAfter:NoOfImagesToBeDownloadedBeforeSuccessCallback];
     } else {
         error = [NSError errorWithDomain:@"GalleryManagerError" code:kInvalidResponse userInfo:nil];
         [self giveCallbackWithErrorCode:error andModel:model];

@@ -10,7 +10,10 @@
 #import "GalleryViewManager.h"
 #import "GalleryPhotoCell.h"
 
-@interface ViewController () <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching, UICollectionViewDelegateFlowLayout, GalleryManagerDelegate>
+#define NoOfColoumns 3
+#define DefaultCellHeight 200
+
+@interface ViewController () <UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GalleryManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -32,7 +35,6 @@
     self.textField.delegate = self;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    self.collectionView.prefetchDataSource = self;
     self.manager = [[GalleryViewManager alloc] init];
     self.manager.delegate = self;
 }
@@ -75,18 +77,10 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat height = 200;//default height
-    CGFloat width = (collectionView.frame.size.width-40)/3;//40 for padding
+    CGFloat height = DefaultCellHeight;
+    CGFloat width = (collectionView.frame.size.width-40)/NoOfColoumns;//40 for padding
     
     return CGSizeMake(width, height);
-}
-
-#pragma mark - UICollectionViewPrefetchDataSource
-
-- (void)collectionView:(UICollectionView *)collectionView prefetchItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
-    for(NSIndexPath *idxPath in indexPaths) {
-        [self.manager fetchImageForModel:[self.model.photosList objectAtIndex:idxPath.row]];
-    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -111,7 +105,7 @@
     
      //If user is at second last row
     //Add spiner on view and fetch new data
-    if(indexPath.row + 3 >= self.model.photosList.count) {
+    if(indexPath.row + NoOfColoumns >= self.model.photosList.count) {
         [self startSpinner];
         [self.manager fetchDataForScroll:self.model];
     }

@@ -169,30 +169,6 @@
     }];
 }
 
-- (void)testFetchImageForModelInGalleryViewManager {
-    GalleryViewManager *manager = [[GalleryViewManager alloc] init];
-    PhotoModel *model = [[PhotoModel alloc] initWithDictionary:@{
-                                                                 @"id": @"47981487342",
-                                                                 @"owner": @"57971685@N02",
-                                                                 @"secret": @"07d9f3848d",
-                                                                 @"server": @"65535",
-                                                                 @"farm": @(66),
-                                                                 @"title": @"Dreaming kittens",
-                                                                 @"ispublic": @(1),
-                                                                 @"isfriend": @(0),
-                                                                 @"isfamily": @(0)
-                                                                 }];
-    [manager fetchImageForModel:model];
-    //give 10 seconds to download image if not present in cache
-    [NSThread sleepForTimeInterval:10.0];
-    NSCache *cache = [manager valueForKey:@"cache"];
-    if([manager respondsToSelector:@selector(getDownloadString:)]) {
-        NSString *result = [manager performSelector:@selector(getDownloadString:) withObject:model];
-        UIImage *image = [cache objectForKey:result];
-        XCTAssertNotNil(image, @"image not saved in cached");
-    }
-}
-
 - (void)testUpdateImageForModelInGalleryViewManager {
     GalleryViewManager *manager = [[GalleryViewManager alloc] init];
     PhotoModel *model = [[PhotoModel alloc] initWithDictionary:@{
