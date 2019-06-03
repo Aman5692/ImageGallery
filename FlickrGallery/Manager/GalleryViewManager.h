@@ -45,9 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fetchDataForScroll:(SearchObjectModel *)model;
 
 /*
- * Api to get UIImage either from cache or UIImage with default background
+ * Api to fetch image for photoModel, if already not present in cache
  */
-- (UIImage *)getImageForModel:(PhotoModel *)photoModel;
+- (void)fetchImageForModel:(PhotoModel *)photoModel;
+
+
+/*
+ * Api to update image for photoModel in given imageView
+ * If image is not present in cache, default image is given to imageView &
+ * asyncronously image is fetched and updated on imageView
+ */
+- (void)updateImageForModel:(PhotoModel *)photoModel onImageView:(UIImageView *)imageView;
 
 @end
 

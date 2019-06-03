@@ -11,9 +11,9 @@
 
 @interface GalleryViewManager()
 
-@property (nonatomic,strong) NSCache *cache;
+@property (nonatomic, strong) NSCache *cache;
 @property (nonatomic) BOOL networkRequestInProgress;
-
+@property (nonatomic, strong) NSCache *imageViewCache;
 @end
 
 @implementation GalleryViewManager
@@ -22,6 +22,9 @@
     if(self = [super init]) {
         self.cache = [[NSCache alloc] init];
         [self.cache setEvictsObjectsWithDiscardedContent:NO];
+        
+        self.imageViewCache = [[NSCache alloc] init];
+        [self.imageViewCache setEvictsObjectsWithDiscardedContent:NO];
     }
     return self;
 }
@@ -47,12 +50,13 @@
     }
 }
 
-- (UIImage *)getImageForModel:(PhotoModel *)photoModel {
+- (void)fetchImageForModel:(PhotoModel *)photoModel {
     //get image from cache or network
     NSString *downloadUrl = [self getDownloadString:photoModel];
     UIImage *image = [self.cache objectForKey:downloadUrl];
+    
+    // If image does not exist in cache, fetch from network and save in cache
     if(!image) {
-        image = [UIImage imageNamed:@"defaultImage"];
         [NetworkUtility fetchImageForUrl:downloadUrl withCompletionBlock:^(NSData * _Nullable data, NSError * _Nullable error){
             if(!error){
                 UIImage *image = [[UIImage alloc] initWithData:data];
@@ -62,13 +66,51 @@
             }
         }];
     }
-    return image;
+    return;
+}
+
+- (void)updateImageForModel:(PhotoModel *)photoModel onImageView:(UIImageView *)imageView {
+    
+    NSString *downloadUrl = [self getDownloadString:photoModel];
+    UIImage *image = [self.cache objectForKey:downloadUrl];
+    if(!image) {
+        image = [UIImage imageNamed:@"defaultImage"];
+        
+        //save given imageView in cache, as asked image is not present in cache currently
+        [self.imageViewCache setObject:imageView forKey:downloadUrl];
+        [NetworkUtility fetchImageForUrl:downloadUrl withCompletionBlock:^(NSData * _Nullable data, NSError * _Nullable error){
+            if(!error){
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                if(image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                          //extract corresponding imageview
+                         //add fetched image
+                        //remove imageView from cache
+                        UIImageView *view = [self.imageViewCache objectForKey:downloadUrl];
+                        [view setImage:image];
+                        [self.imageViewCache removeObjectForKey:downloadUrl];
+                        
+                        //save image to cache for future reference
+                        [self.cache setObject:image forKey:downloadUrl];
+                    });
+                    
+                }
+            }
+        }];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //As image was present in cache, update imageView
+            [imageView setImage:image];
+        });
+    }
+    return;
 }
 
 #pragma mark - prefetch
 
 - (void)prefetchImageFromStart:(int)start toPosition:(int)end forModel:(SearchObjectModel *)model andGiveCallbackAfter:(int)prefetchCount {
     __block int imageReceived = 0;
+    __block BOOL callbackGiven = false;
     for(int i = start;i <= end;i++) {
         if(model.photosList.count > i) {
             NSString *downloadUrl = [self getDownloadString:[model.photosList objectAtIndex:i]];
@@ -82,8 +124,9 @@
                             [self.cache setObject:image forKey:downloadUrl];
                         }
                     }
-                    if(imageReceived >= prefetchCount) {//Every time prefetch count is received give a callback
-                         imageReceived = 0;
+                    if(!callbackGiven && imageReceived >= prefetchCount) {//If prefetch count is reached give a callback
+                        //update callbackGiven so refresh callback is given only once
+                        callbackGiven = true;
                         [self giveCallbackWithErrorCode:nil andModel:model];
                     }
                 }];
@@ -92,8 +135,9 @@
             }
         }
     }
-    if(imageReceived >= prefetchCount) {//Every time prefetch count is received give a callback
-        imageReceived = 0;
+    if(!callbackGiven && imageReceived >= prefetchCount) {//If prefetch count is reached give a callback
+        //update callbackGiven so refresh callback is given only once
+        callbackGiven = true;
         [self giveCallbackWithErrorCode:nil andModel:model];
     }
 }

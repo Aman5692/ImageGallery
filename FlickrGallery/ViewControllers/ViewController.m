@@ -54,8 +54,10 @@
         [self.overlayView setBackgroundColor:[UIColor grayColor]];
         [self.overlayView addSubview:self.spinner];
         [self.view addSubview:self.overlayView];
-        self.spinner.translatesAutoresizingMaskIntoConstraints = false;
-        [NSLayoutConstraint activateConstraints:@[[self.spinner.centerXAnchor constraintEqualToAnchor:[UIApplication sharedApplication].keyWindow.centerXAnchor],[self.spinner.centerYAnchor constraintEqualToAnchor:[UIApplication sharedApplication].keyWindow.centerYAnchor]]];
+        CGRect frame = self.spinner.frame;
+        frame.origin.x = (self.view.frame.size.width / 2) - 12;//subtracting half the size of spinner width
+        frame.origin.y = (self.view.frame.size.height / 2) - 12;//subtracting half the size of spinner height
+        self.spinner.frame = frame;
         [self.spinner startAnimating];
     }
 }
@@ -83,7 +85,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView prefetchItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
     for(NSIndexPath *idxPath in indexPaths) {
-        [self.manager getImageForModel:[self.model.photosList objectAtIndex:idxPath.row]];
+        [self.manager fetchImageForModel:[self.model.photosList objectAtIndex:idxPath.row]];
     }
 }
 
@@ -99,7 +101,11 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GalleryPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-    [cell.imageView setImage:[self.manager getImageForModel:[self.model.photosList objectAtIndex:indexPath.row]]];
+    
+    [self.manager updateImageForModel:[self.model.photosList objectAtIndex:indexPath.row] onImageView:cell.imageView];
+    
+     //If user is at second last row
+    //Add spiner on view and fetch new data
     if(indexPath.row + 3 >= self.model.photosList.count) {
         [self startSpinner];
         [self.manager fetchDataForScroll:self.model];

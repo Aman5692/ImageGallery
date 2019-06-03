@@ -169,22 +169,22 @@
     }];
 }
 
-- (void)testGetImageForModelInGalleryViewManager {
-    GalleryViewManager *manager = [[GalleryViewManager alloc] init];
-    PhotoModel *model = [[PhotoModel alloc] initWithDictionary:@{
-                                                                 @"id": @"47981487342",
-                                                                 @"owner": @"57971685@N02",
-                                                                 @"secret": @"07d9f3848d",
-                                                                 @"server": @"65535",
-                                                                 @"farm": @(66),
-                                                                 @"title": @"Dreaming kittens",
-                                                                 @"ispublic": @(1),
-                                                                 @"isfriend": @(0),
-                                                                 @"isfamily": @(0)
-                                                                 }];
-    UIImage *image = [manager getImageForModel:model];
-    XCTAssertNotNil(image,@"nil image received");
-}
+//- (void)testFetchImageForModelInGalleryViewManager {
+//    GalleryViewManager *manager = [[GalleryViewManager alloc] init];
+//    PhotoModel *model = [[PhotoModel alloc] initWithDictionary:@{
+//                                                                 @"id": @"47981487342",
+//                                                                 @"owner": @"57971685@N02",
+//                                                                 @"secret": @"07d9f3848d",
+//                                                                 @"server": @"65535",
+//                                                                 @"farm": @(66),
+//                                                                 @"title": @"Dreaming kittens",
+//                                                                 @"ispublic": @(1),
+//                                                                 @"isfriend": @(0),
+//                                                                 @"isfamily": @(0)
+//                                                                 }];
+//    UIImage *image = [manager fetchImageForModel:model];
+//    XCTAssertNotNil(image,@"nil image received");
+//}
 
 - (void)testGetDownloadStringInGalleryViewManager {
     GalleryViewManager *manager = [[GalleryViewManager alloc] init];

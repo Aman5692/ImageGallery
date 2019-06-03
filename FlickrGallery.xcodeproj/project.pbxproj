@@ -23,6 +23,7 @@
 		2194E11022A4423E00E7CB77 /* SearchObjectModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */; };
 		2194E11222A444FA00E7CB77 /* PhotoModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E11122A444F900E7CB77 /* PhotoModelTests.m */; };
 		2194E11422A4466000E7CB77 /* NetworkUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */; };
+		2194E11622A4C6F700E7CB77 /* ViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2194E11522A4C6F700E7CB77 /* ViewControllerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchObjectModelTests.m; sourceTree = "<group>"; };
 		2194E11122A444F900E7CB77 /* PhotoModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoModelTests.m; sourceTree = "<group>"; };
 		2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkUtilityTests.m; sourceTree = "<group>"; };
+		2194E11522A4C6F700E7CB77 /* ViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 				2194E10F22A4423E00E7CB77 /* SearchObjectModelTests.m */,
 				2194E11122A444F900E7CB77 /* PhotoModelTests.m */,
 				2194E11322A4466000E7CB77 /* NetworkUtilityTests.m */,
+				2194E11522A4C6F700E7CB77 /* ViewControllerTests.m */,
 			);
 			path = FlickrGalleryTests;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				2194E11422A4466000E7CB77 /* NetworkUtilityTests.m in Sources */,
 				2194E11222A444FA00E7CB77 /* PhotoModelTests.m in Sources */,
 				2194E0DF22A3851D00E7CB77 /* FlickrGalleryTests.m in Sources */,
+				2194E11622A4C6F700E7CB77 /* ViewControllerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
